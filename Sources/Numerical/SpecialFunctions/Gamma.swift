@@ -260,11 +260,11 @@ fileprivate func q_gamma_frac(a: Double, x: Double) -> Double {
             if iInt == 1 {
                 return 1
             } else {
-                return (i - 1) * (a - (i - 1))
+                return (i - 1.0) * (a - (i - 1.0))
             }
         },
         b: { i in
-            return 1 + x - a + 2 * Double(i - 1)
+            return 1.0 + x - a + 2.0 * Double(i - 1)
         }
     )
     return prefix * frac.value
