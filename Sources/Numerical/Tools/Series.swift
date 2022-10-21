@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func indexedAccumulatingRecursiveSequence<IntSequence: Sequence, State>(indices: IntSequence, accum0: Double, state0: State, accumulate: @escaping (Double,Double) -> Double, update: @escaping (Int,State) -> (Double,State) ) -> LazyScanSequence<LazySequence<IntSequence>, (Double, Double, State)> where IntSequence.Element == Int {
+public func indexedAccumulatingRecursiveSequence<IntSequence: Sequence, State>(indices: IntSequence, accum0: Double, state0: State, accumulate: @escaping (Double,Double) -> Double, update: @escaping (Int,State) -> (Double,State) ) -> LazyScanSequenceCustom<LazySequence<IntSequence>, (Double, Double, State)> where IntSequence.Element == Int {
     return indices.lazy.scann( (accum0,.nan,state0)) { arg0, i -> (Double,Double,State) in
         let (accumPrev,_,statePrev) = arg0
         let (term, state) = update(i, statePrev)

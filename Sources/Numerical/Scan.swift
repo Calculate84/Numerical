@@ -46,18 +46,18 @@ public extension LazySequenceProtocol {
   func scann<ResultElement>(
     _ initial: ResultElement,
     _ nextPartialResult: @escaping (ResultElement, Element) -> ResultElement
-  ) -> LazyScanSequence<Self, ResultElement> {
-    return LazyScanSequence(
+  ) -> LazyScanSequenceCustom<Self, ResultElement> {
+    return LazyScanSequenceCustom(
         initial: initial, base: self, nextPartialResult: nextPartialResult)
   }
 }
 
-public struct LazyScanSequence<Base: Sequence, ResultElement>
+public struct LazyScanSequenceCustom<Base: Sequence, ResultElement>
   : LazySequenceProtocol // Chained operations on self are lazy, too
 {
   @inlinable
-  public func makeIterator() -> LazyScanIterator<Base.Iterator, ResultElement> {
-    return LazyScanIterator(
+  public func makeIterator() -> LazyScanIteratorCustom<Base.Iterator, ResultElement> {
+    return LazyScanIteratorCustom(
         nextElement: initial, base: base.makeIterator(), nextPartialResult: nextPartialResult)
   }
   @inlinable
@@ -75,7 +75,7 @@ public struct LazyScanSequence<Base: Sequence, ResultElement>
     (ResultElement, Base.Element) -> ResultElement
 }
 
-public struct LazyScanIterator<Base : IteratorProtocol, ResultElement>
+public struct LazyScanIteratorCustom<Base : IteratorProtocol, ResultElement>
   : IteratorProtocol {
   @inlinable
   mutating public func next() -> ResultElement? {
