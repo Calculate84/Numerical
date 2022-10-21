@@ -31,7 +31,7 @@ public extension Sequence {
   }
 }
 
-public extension LazySequenceProtocol {
+public extension Sequence {
   /// Returns a sequence containing the results of
   ///
   ///   p.reduce(initial, nextPartialResult)
@@ -43,7 +43,7 @@ public extension LazySequenceProtocol {
   ///
   /// - Complexity: O(1)
   @inlinable
-  func scann<ResultElement>(
+  func lazyScan<ResultElement>(
     _ initial: ResultElement,
     _ nextPartialResult: @escaping (ResultElement, Element) -> ResultElement
   ) -> LazyScanSequenceCustom<Self, ResultElement> {

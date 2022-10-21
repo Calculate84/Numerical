@@ -37,7 +37,7 @@ public func romberg(range: ClosedRange<Double>, maxIter: Int = 10, f rawF: @esca
     let n: Int = 1
     
     let seq = sequence(first: (Δx: Δx₀, R: [R₀₀], n: n)) { accum in
-        let (Δxⱼ₋₁,Rⱼ₋₁,nⱼ₋₁): (Δx: Double, R: [Double], n: Int) = accum
+        let (Δxⱼ₋₁,Rⱼ₋₁,nⱼ₋₁): (Double, [Double], Int) = accum
 
         // bisect the interval
         let Δxⱼ = 0.5 * Δxⱼ₋₁
