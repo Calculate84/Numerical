@@ -29,14 +29,15 @@ public func romberg(range: ClosedRange<Double>, maxIter: Int = 10, f rawF: @esca
     let b = range.upperBound
 
     // initial interval is just the full interval
-    let Δx₀ = (b - a)
+    let Δx₀: Double = (b - a)
 
     // initial estimate (same as trapezoidal rule)
-    let R₀₀ = 0.5 * Δx₀ * (f(a) + f(b))
+    let R₀₀: Double = 0.5 * Δx₀ * (f(a) + f(b))
 
-    // iteratively bisect the interval until we get desired convergence
-    let q = sequence(first: (Δx: Δx₀, R: [R₀₀], n: 1)) { accum in
-        let (Δxⱼ₋₁,Rⱼ₋₁,nⱼ₋₁) = accum
+    let n: Int = 1
+    
+    let seq = sequence(first: (Δx: Δx₀, R: [R₀₀], n: n)) { accum in
+        let (Δxⱼ₋₁,Rⱼ₋₁,nⱼ₋₁): (Δx: Double, R: [Double], n: Int) = accum
 
         // bisect the interval
         let Δxⱼ = 0.5 * Δxⱼ₋₁
@@ -53,7 +54,7 @@ public func romberg(range: ClosedRange<Double>, maxIter: Int = 10, f rawF: @esca
         let Rⱼ₀ = Δxⱼ * sum + 0.5 * Rⱼ₋₁[0]
         
         // Richardson extrapolation
-        let Rⱼ = Rⱼ₋₁.scan((Rⱼᵢ: Rⱼ₀, p4ⁱ: 1.0)) { accum, Rⱼ₋₁ᵢ₋₁ in
+        let Rⱼ = Rⱼ₋₁.scann((Rⱼᵢ: Rⱼ₀, p4ⁱ: 1.0)) { accum, Rⱼ₋₁ᵢ₋₁ in
             let (Rⱼᵢ₋₁,p4ⁱ⁻¹) = accum
             let p4ⁱ = p4ⁱ⁻¹ * 4.0
             let Rⱼᵢ = (p4ⁱ * Rⱼᵢ₋₁ - Rⱼ₋₁ᵢ₋₁) / (p4ⁱ - 1)
@@ -61,7 +62,12 @@ public func romberg(range: ClosedRange<Double>, maxIter: Int = 10, f rawF: @esca
         }.map { $0.Rⱼᵢ }
         
         return (Δxⱼ,Rⱼ,nⱼ)
-    }.until(minIter: 3, maxIter: maxIter) { a, b in b.R.last!.isApprox(.maybeZero(a.R.last!), tolerance: .strict) }
+    }
+    // iteratively bisect the interval until we get desired convergence
+    let q = seq.until2(minIter: 3, maxIter: maxIter) { a, b in
+        b.R.last!.isApprox(.maybeZero(a.R.last!), tolerance: .strict)
+    }
+    
     guard let quad = q else { return nil }
     
     switch quad {

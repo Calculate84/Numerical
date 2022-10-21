@@ -295,7 +295,7 @@ fileprivate func pq_gamma_uniform_asymptotic(a: Double, x: Double, isLower: Bool
     let Rprefix = exp(-hη² * a) / sqrt(2 * .pi * a)
     
     /// βᵢ = 1/a (i + 2) βᵢ₊₂ + dᵢ₊₁
-    let β = C.temme_d.enumerated().reversed().scan((βᵢ₊₁: 0.0, βᵢ₊₂: 0.0)) { prev, term in
+    let β = C.temme_d.enumerated().reversed().scann((βᵢ₊₁: 0.0, βᵢ₊₂: 0.0)) { prev, term in
         let (βᵢ₊₁,βᵢ₊₂) = prev
         let (n   ,dᵢ₊₁) = term
         let i = Double(n - 1)
@@ -570,7 +570,7 @@ fileprivate func lambda(_ η: Double) -> Double {
         let λʹ = sequence(first: λ) { λ₀ in
             let λ₁ = λ₀ * (s + log(λ₀)) / (λ₀ - 1)
             return λ₁
-        }.until(maxIter: 100) { a, b in b.isApprox(.maybeZero(a), tolerance: .strict) }
+        }.until2(maxIter: 100) { a, b in b.isApprox(.maybeZero(a), tolerance: .strict) }
         return λʹ?.value ?? λ
     case _:
         return λ

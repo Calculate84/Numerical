@@ -43,7 +43,7 @@ public extension Sequence {
     ///
     /// Returns nil for the empty sequence.
     @inlinable
-    func until(minIter: Int = 0, maxIter: Int = 100, _ predicate: (Element,Element) -> Bool) -> UntilValue<Element>? {
+    func until2(minIter: Int = 0, maxIter: Int = 100, _ predicate: (Element,Element) -> Bool) -> UntilValue<Element>? {
         var g = makeIterator()
         var count: UInt = 0
         var last: Element? = nil

@@ -28,7 +28,7 @@ public func toms748Root(bracket: BracketedRootEstimate, tolerance: EqualityToler
     let (a₂, b₂, d₂, fa₂, fb₂, fd₂) = toms748Bracket(f: f, a: a, b: b, c: c₁, fa: fa, fb: fb, tolerance: tolerance.absolute)
     
     typealias Toms748State = (a: Double, b: Double, d: Double, e: Double, fa: Double, fb: Double, fd: Double, fe: Double)
-    let r: UntilValue<Toms748State>? = (2...).lazy.scan((a: a₂, b: b₂, d: d₂, e: 1.0, fa: fa₂, fb: fb₂, fd: fd₂, fe: 1e5)) { (state: Toms748State, i: Int) -> Toms748State in
+    let r: UntilValue<Toms748State>? = (2...).lazy.scann((a: a₂, b: b₂, d: d₂, e: 1.0, fa: fa₂, fb: fb₂, fd: fd₂, fe: 1e5)) { (state: Toms748State, i: Int) -> Toms748State in
         let (aᵢ, bᵢ, dᵢ, eᵢ, faᵢ, fbᵢ, fdᵢ, feᵢ) = state
         
         // 4.2.3 First guess for the iteration is Inverse Cubic Interpolation if

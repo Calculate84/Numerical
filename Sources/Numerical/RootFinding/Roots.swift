@@ -259,7 +259,7 @@ func rootHelper(guess: Double, xmin: Double? = nil, xmax: Double? = nil, maxIter
         if let xmin = xmin, x1 < xmin { return bisect(a: x0, b: xmin) }
         if let xmax = xmax, x1 > xmax { return bisect(a: x0, b: xmax) }
         return x1
-    }.until(maxIter: maxIter) { s1, s2 in s2.isApprox(.maybeZero(s1), tolerance: tolerance) }
+    }.until2(maxIter: maxIter) { s1, s2 in s2.isApprox(.maybeZero(s1), tolerance: tolerance) }
     
     guard let res = r else { return .error }
     

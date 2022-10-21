@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Scan
 
 // MARK: Marcum Q
 
@@ -755,7 +754,7 @@ fileprivate func bigmu(µ µp1: Double, x µx: Double, y µy: Double) -> Probabi
     // ψᵢ(ζ) = (i - 1) / µ ψᵢ₋₂ + (-ζ)ⁱ⁻¹ / µ e^(-1/2 µ ζ²), eq. 68
     // both this and µⁿ below may waste effort if the main series converges
     // before we use some of the calculated items
-    let ψⱼ = (1...3).scan((ψᵢ₋₂: 0.0, ψᵢ₋₁: ψ₀, ζⁱ⁻¹: 1.0)) { prev, i in
+    let ψⱼ = (1...3).scann((ψᵢ₋₂: 0.0, ψᵢ₋₁: ψ₀, ζⁱ⁻¹: 1.0)) { prev, i in
         let (ψᵢ₋₂,ψᵢ₋₁,ζⁱ⁻¹) = prev
         let ψᵢ = (Double(i - 1) * ψᵢ₋₂ + ζⁱ⁻¹ * ehµζ²) / µ
         let ζⁱ = -sgnζ * ζⁱ⁻¹
@@ -763,7 +762,7 @@ fileprivate func bigmu(µ µp1: Double, x µx: Double, y µy: Double) -> Probabi
         }.map { $0.ψᵢ₋₁ }
     
     // pre-calculate power of µ so we don't repeat ourselves below
-    let µⁿ = (1...3).scan(1) { prev, n in prev * µ }
+    let µⁿ = (1...3).scann(1) { prev, n in prev * µ }
     
     // u = 1 / √(2x + 1) eq. 88
     let u = 1 / sqrt(2 * x + 1)
